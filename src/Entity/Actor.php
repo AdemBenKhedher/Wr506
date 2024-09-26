@@ -57,6 +57,9 @@ class Actor
     #[ORM\ManyToMany(targetEntity: Movie::class, inversedBy: 'actors')]
     private Collection $movies;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dod = null;
+
     public function __construct()
     {
         $this->movies = new ArrayCollection();
@@ -214,6 +217,18 @@ class Actor
     public function removeMovie(Movie $movie): static
     {
         $this->movies->removeElement($movie);
+
+        return $this;
+    }
+
+    public function getDod(): ?\DateTimeInterface
+    {
+        return $this->dod;
+    }
+
+    public function setDod(?\DateTimeInterface $dod): static
+    {
+        $this->dod = $dod;
 
         return $this;
     }

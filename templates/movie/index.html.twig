@@ -1,5 +1,108 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+ <style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 20px;
+}
 
+/* Titre principal */
+h1 {
+    color: #333;
+}
+
+/* Liste de films */
+ul {
+    list-style-type: none; /* Supprime les puces de la liste */
+    padding: 0; /* Supprime le padding par défaut */
+}
+
+li {
+    background-color: #fff; /* Fond blanc pour chaque film */
+    border: 1px solid #ddd; /* Bordure légère */
+    border-radius: 5px; /* Coins arrondis */
+    padding: 15px; /* Espacement interne */
+    margin-bottom: 15px; /* Espacement entre les films */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre légère */
+}
+
+/* Titre de film */
+h2 {
+    color: #007bff; /* Couleur bleue pour le titre */
+}
+
+/* Catégories et acteurs */
+p {
+    margin: 5px 0; /* Espacement vertical */
+}
+
+/* Pagination */
+.pagination {
+    display: flex; /* Flexbox pour aligner les éléments */
+    justify-content: center; /* Centrer les éléments */
+    margin-top: 20px; /* Espacement supérieur */
+}
+
+.pagination a {
+    margin: 0 5px; /* Espacement horizontal entre les liens */
+    padding: 8px 12px; /* Espacement interne */
+    background-color: #007bff; /* Couleur de fond bleue */
+    color: white; /* Couleur du texte */
+    text-decoration: none; /* Pas de soulignement */
+    border-radius: 5px; /* Coins arrondis */
+}
+
+.pagination a:hover {
+    background-color: #0056b3; /* Couleur de fond au survol */
+}
+
+.pagination a.active {
+    background-color: #0056b3; /* Couleur active pour la page actuelle */
+    pointer-events: none; /* Désactiver le clic sur le lien actif */
+}
+</style>
+
+{% endblock %}
 {% block body %}
+    <h1>List of Movies</h1>
 
+    <ul>
+        {% for movie in movies %}
+            <li>
+                <h2>{{ movie.title }}</h2>
+                <p>{{ movie.description }}</p>
+                <p>Categories:
+                    {% for category in movie.categories %}
+                        {{ category.title }}
+                    {% endfor %}
+                </p>
+                <p>Actors:
+                    {% for actor in movie.actors %}
+                        {{ actor.firstname }} {{ actor.lastname }}
+                    {% endfor %}
+                </p>
+            </li>
+        {% else %}
+            <li>No movies found.</li>
+        {% endfor %}
+    </ul>
+
+    <div class="pagination">
+        {% if currentPage > 1 %}
+            <a href="{{ path('app_movie', { page: currentPage - 1 }) }}">Previous</a>
+        {% endif %}
+
+        {% for i in 1..totalPages %}
+            <a href="{{ path('app_movie', { page: i }) }}"
+               class="{% if i == currentPage %}active{% endif %}">
+                {{ i }}
+            </a>
+        {% endfor %}
+
+        {% if currentPage < totalPages %}
+            <a href="{{ path('app_movie', { page: currentPage + 1 }) }}">Next</a>
+        {% endif %}
+    </div>
 {% endblock %}
