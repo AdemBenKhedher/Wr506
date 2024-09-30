@@ -60,6 +60,10 @@ class Actor
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dod = null;
 
+
+
+
+
     public function __construct()
     {
         $this->movies = new ArrayCollection();
@@ -232,4 +236,8 @@ class Actor
 
         return $this;
     }
+
+
+
+
 }

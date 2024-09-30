@@ -83,6 +83,7 @@ p {
                         {{ actor.firstname }} {{ actor.lastname }}
                     {% endfor %}
                 </p>
+               <img src="{{ movie.media }}" alt="{{ movie.title }}" style="max-width: 60%; height: auto;"/>
             </li>
         {% else %}
             <li>No movies found.</li>

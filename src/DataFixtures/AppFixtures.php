@@ -5,6 +5,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
 use DateTimeImmutable;
+use DateTime;
 use App\Entity\Actor;
 use App\Entity\Movie;
 use App\Entity\Category;
@@ -33,36 +34,37 @@ class AppFixtures extends Fixture
             $actor->setAwards($faker->numberBetween(0, 10));
             $actor->setBio($faker->text(200)); 
             $actor->setNationalty($faker->country());
+            $dob = $actor->getDob();
+            $now = new DateTime();
+            $dod = null;
+            $dod = $faker->optional(0.2)->dateTimeBetween($dob, $now);
+            $actor->setDod($dod);
             $actor->setMedia($faker->imageUrl(640, 480, 'actors', true));
             $actor->setGender($faker->randomElement(['male','female','other']));
             $actor->setCreatedAt(new DateTimeImmutable());
-
             $createdActors[] = $actor;
             $manager->persist($actor);
 
 
         }
 
-        $categories= [];
-        $fakerCategories = $faker->words(7);
-        foreach ($fakerCategories as $item) {
+        $categories = [];
+        $genres = $faker->movieGenres(21);
+        foreach ($genres as $genreTitle) {
             $category = new Category();
-            $category->setTitle($item);
+            $category->setTitle($genreTitle);
             $category->setCreatedAt(new DateTimeImmutable());
-
-            $categories[]= $category;
             $manager->persist($category);
-
-
+            $categories[] = $category;
         }
 
         $movies = $faker->movies(100);
         foreach ($movies as $item) {
             $movie = new Movie();
             $movie->setTitle($item);
-            $movie->setDescription($faker->text(200));
+            $movie->setDescription($faker->overview(200));
             $movie->setReleaseDate($faker->dateTimeThisCentury());
-            $movie->setDuration($faker->numberBetween());
+            $movie->setDuration($faker->numberBetween(1,480));
             $movie->setEntries($faker->numberBetween(0, 1000000));
             $movie->setDirector($faker->name());
             $movie->setRating($faker->randomFloat(1, 0, 10));
