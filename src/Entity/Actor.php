@@ -9,6 +9,22 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\ExistsFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
+
+
+
+
+
+#[ApiResource]
+#[ApiFilter(OrderFilter::class, properties:['id', 'lastname', 'firstname', 'dob', 'awards', 'bio', 'national', 'media'])]
+#[ApiFilter(ExistsFilter::class, properties: ['dod'])]
+#[ApiFilter(SearchFilter::class, properties: ['lastname' => 'partial', 'firstname' => 'partial', 'movies.title' => 'partial'])]
+#[APiFilter(RangeFilter::class, properties: ['awards'])]
+
 #[ORM\Entity(repositoryClass: ActorRepository::class)]
 #[ApiResource]
 #[ORM\HasLifecycleCallbacks]
