@@ -6,6 +6,11 @@
 parameters:
 
 services:
+    App\Controller\CreateMediaObjectAction:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $serializer: '@serializer'
+
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

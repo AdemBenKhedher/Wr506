@@ -63,8 +63,11 @@ class Movie
     )]
     private ?float $rating = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $media = null;
+
+    #[ORM\ManyToOne(targetEntity: MediaObject::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    #[ApiProperty(types: ['https://schema.org/image'])]
+    public ?MediaObject $media = null;
 
     #[ORM\Column]
     #[Assert\Type("\DateTimeImmutable",
