@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
 #[ApiResource]
@@ -19,12 +20,23 @@ class Movie
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotNull(
+    message: "The value {{ value }} must be not null."
+    )]
+    #[Assert\Length(
+    min: 2,max: 255,
+    minMessage: 'Your title must be at least {{ limit }} characters long',
+    maxMessage: 'Your title cannot be longer than {{ limit }} characters',
+    )]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Assert\Type("\DateTimeInterface",
+    message: "The value {{ value }} is not a valid {{ type }}."
+    )]
     private ?\DateTimeInterface $releaseDate = null;
 
     #[ORM\Column(nullable: true)]
@@ -34,15 +46,30 @@ class Movie
     private ?int $entries = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+    min: 2,max: 255,
+    minMessage: 'Your director name must be at least {{ limit }} characters long',
+    maxMessage: 'Your director name cannot be longer than {{ limit }} characters',
+    )]
     private ?string $director = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Type("int",
+    message: "The value {{ value }} is not a valid {{ type }}."
+    )]
+    #[Assert\Range(
+    min: 0,max: 5,
+    notInRangeMessage: 'The value {{ value }} must be  between {{ min }} and {{ max }}',
+    )]
     private ?float $rating = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $media = null;
 
     #[ORM\Column]
+    #[Assert\Type("\DateTimeImmutable",
+    message: "The value {{ value }} is not a valid {{ type }}."
+    )]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
@@ -51,13 +78,13 @@ class Movie
     /**
      * @var Collection<int, Actor>
      */
-    #[ORM\ManyToMany(targetEntity: Actor::class, mappedBy: 'movies')]
+    #[ORM\ManyToMany(targetEntity: Actor::class, mappedBy: 'movies', cascade: ['persist'])]
     private Collection $actors;
 
     /**
      * @var Collection<int, Category>
      */
-    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'movies')]
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'movies', cascade: ['persist'])]
     private Collection $categories;
 
     public function __construct()

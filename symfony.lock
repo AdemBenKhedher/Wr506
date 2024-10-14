@@ -64,6 +64,18 @@
             "config/packages/nelmio_cors.yaml"
         ]
     },
+    "phpstan/phpstan": {
+        "version": "1.12",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "5e490cc197fb6bb1ae22e5abbc531ddc633b6767"
+        },
+        "files": [
+            "phpstan.dist.neon"
+        ]
+    },
     "phpunit/phpunit": {
         "version": "9.6",
         "recipe": {
@@ -247,7 +259,7 @@
         ]
     },
     "symfony/stimulus-bundle": {
-        "version": "2.19",
+        "version": "2.20",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
@@ -287,7 +299,19 @@
         ]
     },
     "symfony/ux-turbo": {
-        "version": "v2.19.3"
+        "version": "v2.20.0"
+    },
+    "symfony/ux-vue": {
+        "version": "2.20",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "2.9",
+            "ref": "7a6b5e211acc7b10b7190e704b40f6d2bca01adf"
+        },
+        "files": [
+            "assets/vue/controllers/Hello.vue"
+        ]
     },
     "symfony/validator": {
         "version": "7.1",
@@ -314,7 +338,35 @@
             "config/routes/web_profiler.yaml"
         ]
     },
+    "symfony/webpack-encore-bundle": {
+        "version": "2.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "2.0",
+            "ref": "35ee1edee91a1a7137095f53db7ed0c20884b745"
+        },
+        "files": [
+            "assets/app.js",
+            "assets/styles/app.css",
+            "config/packages/webpack_encore.yaml",
+            "package.json",
+            "webpack.config.js"
+        ]
+    },
     "twig/extra-bundle": {
         "version": "v3.13.0"
+    },
+    "vich/uploader-bundle": {
+        "version": "2.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.13",
+            "ref": "1b3064c2f6b255c2bc2f56461aaeb76b11e07e36"
+        },
+        "files": [
+            "config/packages/vich_uploader.yaml"
+        ]
     }
 }

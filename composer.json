@@ -37,16 +37,19 @@
         "symfony/runtime": "7.1.*",
         "symfony/security-bundle": "7.1.*",
         "symfony/serializer": "7.1.*",
-        "symfony/stimulus-bundle": "^2.19",
+        "symfony/stimulus-bundle": "^2.20",
         "symfony/string": "7.1.*",
         "symfony/translation": "7.1.*",
         "symfony/twig-bundle": "7.1.*",
-        "symfony/ux-turbo": "^2.19",
+        "symfony/ux-turbo": "^2.20",
+        "symfony/ux-vue": "^2.20",
         "symfony/validator": "7.1.*",
         "symfony/web-link": "7.1.*",
+        "symfony/webpack-encore-bundle": "^2.2",
         "symfony/yaml": "7.1.*",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0",
+        "vich/uploader-bundle": "^2.4",
         "webonyx/graphql-php": "^15.14",
         "xylis/faker-cinema-providers": "^2.0"
     },
@@ -54,7 +57,8 @@
         "allow-plugins": {
             "php-http/discovery": true,
             "symfony/flex": true,
-            "symfony/runtime": true
+            "symfony/runtime": true,
+            "phpstan/extension-installer": true
         },
         "sort-packages": true
     },
@@ -83,12 +87,16 @@
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
             "importmap:install": "symfony-cmd"
+           
         },
         "post-install-cmd": [
             "@auto-scripts"
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+         "check" : [
+            "phpstan"
         ]
     },
     "conflict": {
@@ -102,6 +110,11 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.6",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan": "^1.12",
+        "phpstan/phpstan-doctrine": "^1.5",
+        "phpstan/phpstan-phpunit": "^1.4",
+        "phpstan/phpstan-symfony": "^1.4",
         "phpunit/phpunit": "^9.5",
         "symfony/browser-kit": "7.1.*",
         "symfony/css-selector": "7.1.*",
