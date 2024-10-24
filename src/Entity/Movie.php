@@ -54,7 +54,7 @@ class Movie
     private ?string $director = null;
 
     #[ORM\Column(nullable: true)]
-    #[Assert\Type("int",
+    #[Assert\Type("float",
     message: "The value {{ value }} is not a valid {{ type }}."
     )]
     #[Assert\Range(
