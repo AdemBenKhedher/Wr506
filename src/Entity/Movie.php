@@ -58,7 +58,7 @@ class Movie
     message: "The value {{ value }} is not a valid {{ type }}."
     )]
     #[Assert\Range(
-    min: 0,max: 5,
+    min: 0,max: 10,
     notInRangeMessage: 'The value {{ value }} must be  between {{ min }} and {{ max }}',
     )]
     private ?float $rating = null;
@@ -87,7 +87,7 @@ class Movie
     /**
      * @var Collection<int, Category>
      */
-    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'movies', cascade: ['persist'])]
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'movies', )]
     private Collection $categories;
 
     public function __construct()

@@ -67,7 +67,7 @@ class AppFixtures extends Fixture
             $movie->setDuration($faker->numberBetween(1,480));
             $movie->setEntries($faker->numberBetween(0, 1000000));
             $movie->setDirector($faker->name());
-            $movie->setRating($faker->randomFloat(1, 0, 10));
+            $movie->setRating($faker->randomFloat(1, 0, 5));
             $movie->setmedia($faker->imageUrl(640, 480, 'movies', true));
             $movie->setCreatedAt(new DateTimeImmutable());
 

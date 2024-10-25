@@ -38,7 +38,7 @@ class Category
     /**
      * @var Collection<int, Movie>
      */
-    #[ORM\ManyToMany(targetEntity: Movie::class, mappedBy: 'categories', cascade: ['persist'])]
+    #[ORM\ManyToMany(targetEntity: Movie::class, mappedBy: 'categories')]
     private Collection $movies;
 
     public function __construct()
