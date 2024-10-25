@@ -19,6 +19,14 @@ class Category
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotNull(
+    message: "The value {{ value }} must be not null."
+    )]
+    #[Assert\Length(
+    min: 2,max: 255,
+    minMessage: 'Your title must be at least {{ limit }} characters long',
+    maxMessage: 'Your title cannot be longer than {{ limit }} characters',
+    )]
     private ?string $title = null;
 
     #[ORM\Column]

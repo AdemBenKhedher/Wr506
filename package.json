@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "@hotwired/stimulus": "^3.2.2",
+    "core-js": "^3.38.1"
+  },
+  "devDependencies": {
+    "@symfony/webpack-encore": "^5.0.1",
+    "vue": "^3.5.12",
+    "vue-loader": "^17.4.2",
+    "vue-template-compiler": "^2.7.16",
+    "webpack-dev-server": "^5.1.0",
+    "webpack-notifier": "^1.15.0"
+  },
+  "scripts": {
+    "dev-server": "encore dev-server",
+    "dev": "encore dev",
+    "watch": "encore dev --watch",
+    "build": "encore production --progress"
+  }
+}

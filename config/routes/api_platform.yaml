@@ -1,4 +1,12 @@
 api_platform:
     resource: .
-    type: api_platform
+    type: api_platform 
     prefix: /api
+
+media_objects_create:
+    path: /media_object
+    controller: App\Controller\CreateMediaObjectAction
+    methods: ['POST']
+    defaults:
+        _api_resource_class: App\Entity\MediaObject
+        _api_collection_operation_name: 'post'
