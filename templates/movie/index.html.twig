@@ -1,0 +1,257 @@
+
+
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+<style>
+:root {
+    --primary-color: #e50914;
+    --background-color: #141414;
+    --card-background: #181818;
+    --text-color: #ffffff;
+    --secondary-text-color: #999;
+    --actor-bg: #0a4d68;
+    
+    --category-animation: #ff4d6d;
+    --category-drama: #7209b7;
+    --category-fantasy: #3a86ff;
+    --category-mystery: #4cc9f0;
+    --category-western: #bc6c25;
+    --category-music: #fca311;
+    --category-adventure: #2b9348;
+    --category-comedy: #ffaa00;
+    --category-war: #6c757d;
+    --category-biography: #4361ee;
+    --category-crime: #d00000;
+    --category-romance: #ff70a6;
+    --category-action: #ef233c;
+    --category-default: #4a4e69;
+}
+
+.movie-details {
+    font-size: 0.8rem;
+    color: var(--secondary-text-color);
+    margin-top: 10px;
+}
+
+.categories, .actors {
+    margin-top: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.category-tag, .actor-tag {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+
+
+
+.category-tag {
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-color);
+    background-color: var(--category-default);
+}
+
+.category-tag.animation { background-color: var(--category-animation); }
+.category-tag.drama { background-color: var(--category-drama); }
+.category-tag.fantasy { background-color: var(--category-fantasy); }
+.category-tag.mystery { background-color: var(--category-mystery); }
+.category-tag.western { background-color: var(--category-western); }
+.category-tag.music { background-color: var(--category-music); }
+.category-tag.adventure { background-color: var(--category-adventure); }
+.category-tag.comedy { background-color: var(--category-comedy); }
+.category-tag.war { background-color: var(--category-war); }
+.category-tag.biography { background-color: var(--category-biography); }
+.category-tag.crime { background-color: var(--category-crime); }
+.category-tag.romance { background-color: var(--category-romance); }
+.category-tag.action { background-color: var(--category-action); }
+
+
+.actor-tag {
+    background-color: var(--actor-bg);
+    color: var(--text-color);
+    border: 1px solid #4cc9f0;
+}
+
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 30px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.movie-card {
+    background-color: var(--card-background);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.movie-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(229, 9, 20, 0.3);
+}
+
+.movie-poster {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    background-color: #2c3e50; /* Placeholder color */
+}
+
+.movie-info {
+    padding: 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.movie-title {
+    font-size: 1.2rem;
+    margin: 0 0 10px 0;
+    color: var(--text-color);
+}
+
+.movie-description {
+    font-size: 0.9rem;
+    color: var(--secondary-text-color);
+    margin-bottom: 10px;
+    flex-grow: 1;
+}
+
+.movie-details {
+    font-size: 0.8rem;
+    color: var(--secondary-text-color);
+}
+
+.categories, .actors {
+    margin-top: 5px;
+}
+
+.pagination {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.pagination a {
+    color: var(--text-color);
+    background-color: var(--primary-color);
+    padding: 10px 15px;
+    margin: 0 5px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.pagination a:hover, .pagination .active {
+    background-color: #b2070e;
+}
+
+@media (max-width: 1200px) {
+    .movie-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .movie-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .movie-grid {
+        grid-template-columns: 1fr;
+    }
+}</style>
+
+{% endblock %}
+
+{% block body %}
+<div>{{ stimulus_controller ('hello')}}</div>
+<div class="container">
+    <h1>Liste des Films</h1>
+    
+  <div class="movie-grid">
+        {% for movie in movies %}
+            <div class="movie-card">
+                {% if movie.media %}
+                    <img src="{{ movie.media }}" alt="{{ movie.title }}" class="movie-poster"/>
+                {% else %}
+                    <div class="movie-poster"></div>
+                {% endif %}
+                <div class="movie-info">
+                    <h2 class="movie-title">{{ movie.title }}</h2>
+                    <h9 class="movie-director">Directed by : {{ movie.director}}</h9>
+                    <p class="movie-description">{{ movie.description }}</p>
+                    <div class="movie-details">
+                        <div class="categories">
+                            {% for category in movie.categories %}
+                                {% set categoryClass = category.title|lower|replace({' ': ''}) %}
+                                <span class="category-tag {{ categoryClass }}">{{ category.title }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="actors">
+                            {% for actor in movie.actors %}
+                                <span class="actor-tag">{{ actor.firstname }} {{ actor.lastname }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p>Aucun film trouvé.</p>
+        {% endfor %}
+    </div>
+    
+    <div class="pagination">
+        {% if currentPage > 1 %}
+            <a href="{{ path('app_movie', { page: currentPage - 1 }) }}">Précédent</a>
+        {% endif %}
+        
+        {% for i in 1..totalPages %}
+            <a href="{{ path('app_movie', { page: i }) }}"
+               class="{% if i == currentPage %}active{% endif %}">
+                {{ i }}
+            </a>
+        {% endfor %}
+        
+        {% if currentPage < totalPages %}
+            <a href="{{ path('app_movie', { page: currentPage + 1 }) }}">Suivant</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
