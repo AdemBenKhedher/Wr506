@@ -6,6 +6,9 @@
 parameters:
 
 services:
+    App\Command\:
+        resource: '../src/Command'
+        tags: ['console.command']
 
     App\Controller\CreateMediaObjectAction:
         arguments:
