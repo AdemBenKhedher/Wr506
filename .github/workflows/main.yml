@@ -1,0 +1,67 @@
+name: Symfony + PHP - V2
+
+on:
+  push:
+    branches: [ "develop", "main" ]
+  pull_request:
+    branches: [ "develop", "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  symfony-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 🛠️ Étape 1 : Télécharger le code source
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # 🔧 Étape 2 : Installer PHP avec Composer
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer
+
+      # 📦 Étape 3 : Mettre en cache les dépendances Composer
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      # 🚀 Étape 4 : Installer les dépendances avec Composer
+      - name: Install Dependencies
+        run: composer install --no-scripts --no-interaction --no-progress --prefer-dist
+
+      # 🗄️ Étape 5 : Configurer l'environnement de test
+      - name: Copy .env.test.local
+        run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
+
+      # 🛠️ Étape 6 : Préparer la base de données pour les tests
+      - name: Create Database
+        run: |
+          mkdir -p data
+          touch data/database.sqlite
+
+      # ✅ Étape 7 : Exécuter les tests PHPUnit
+      - name: Run PHPUnit Tests
+        env:
+          DATABASE_URL: sqlite:///%kernel.project_dir%/data/database.sqlite
+        run: ./vendor/bin/phpunit --coverage-text --colors=never
+
+      # 🔍 Étape 8 : Vérifications avec PHPStan
+      - name: Static Analysis with PHPStan
+        run: ./vendor/bin/phpstan analyze src/ --memory-limit=512M
+
+      # 📝 Étape 9 : Vérifications de style avec PHP_CodeSniffer
+      - name: Code Style Check with PHP_CodeSniffer
+        run: ./vendor/bin/phpcs --standard=PSR12 src/
+
+      # 🧹 Étape 10 : Analyse du code avec PHPMD
+      - name: PHP Mess Detector
+        run: ./vendor/bin/phpmd src/ text cleancode,codesize,controversial,design,naming
